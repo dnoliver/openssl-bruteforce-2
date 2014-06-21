@@ -1,0 +1,15 @@
+for Oliver1
+key: 46712343
+method: Blowfish
+
+for Oliver2
+key: 49999913
+method: Cast5
+
+for Navarro1
+key: 99921223
+method: blowfish
+
+for Navarro2
+key: 42904536 
+method: cast5
