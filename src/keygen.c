@@ -53,5 +53,13 @@ int keygen_itokey( unsigned char key[ KEY_LENGTH ], long number )
 	return 0;
 }
 
+void keygen_itokey_v2( unsigned char key[ KEY_LENGTH ], long number )
+{
+	char buffer[KEY_LENGTH];
+	int size = snprintf(buffer, KEY_LENGTH, "%ld", number);
+	
+	memset( key, ASCII_SPACE, KEY_LENGTH);
+	memcpy( &key[KEY_LENGTH - 1 - size ] , buffer, size );
+}
 
 

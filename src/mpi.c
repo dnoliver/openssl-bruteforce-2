@@ -42,8 +42,8 @@ int main( int argc, char* argv[] )
 	read_parameters( argv, encrypted_text, &work_size );
 
 	Encryptor decryptor[2];
-	init_decryptor( &decryptor[0], DECRYPT, BLOWFISH, iv, encrypted_text );
-	init_decryptor( &decryptor[1], DECRYPT, CAST5, iv, encrypted_text );
+	//init_decryptor( &decryptor[0], DECRYPT, BLOWFISH, iv, encrypted_text );
+	//init_decryptor( &decryptor[1], DECRYPT, CAST5, iv, encrypted_text );
 
 	chunk = work_size / num_procs;
 	first = proc_id * chunk;
@@ -60,7 +60,7 @@ int main( int argc, char* argv[] )
 	for( long i = first; i < last && success_key == - 1; i++ ) {
 
 		keygen_itokey( key, i );
-
+		init_decryptor( &decryptor[0], DECRYPT, BLOWFISH, iv, encrypted_text );
 		encryptor_set_key( &decryptor[0], key );
         encryptor_init( &decryptor[0] );
         encryptor_update( &decryptor[0] );
@@ -77,7 +77,7 @@ int main( int argc, char* argv[] )
 	for( long i = first; i < last && success_key == -1; i++ ) {
 
 		keygen_itokey( key, i );
-
+	init_decryptor( &decryptor[1], DECRYPT, CAST5, iv, encrypted_text );
         encryptor_set_key( &decryptor[1], key );
         encryptor_init( &decryptor[1] );
         encryptor_update( &decryptor[1] );

@@ -28,13 +28,12 @@ int main( int argc, char** argv )
 
 	// create and init the encryptor
 	Encryptor decryptor[2];
-	init_decryptor( &decryptor[0], DECRYPT, BLOWFISH, iv, encrypted_text );
-	init_decryptor( &decryptor[1], DECRYPT, CAST5, iv, encrypted_text );
-
+	
 	// begin the decryption
 	for( long i = 0; i < cant_keys && success_key == -1; i++ ) {
-		keygen_itokey( key, i );
+		keygen_itokey_v2( key, i );
 
+		init_decryptor( &decryptor[0], DECRYPT, BLOWFISH, iv, encrypted_text );
 		encryptor_set_key( &decryptor[0], key );
 		encryptor_init( &decryptor[0] );
 		encryptor_update( &decryptor[0] );
@@ -47,8 +46,9 @@ int main( int argc, char** argv )
 	}
 
 	for( long i = 0; i < cant_keys && success_key == -1; i++ ) {
-		keygen_itokey( key, i );
+		keygen_itokey_v2( key, i );
 
+		init_decryptor( &decryptor[1], DECRYPT, CAST5, iv, encrypted_text );
 		encryptor_set_key( &decryptor[1], key );
 		encryptor_init( &decryptor[1] );
 		encryptor_update( &decryptor[1] );

@@ -22,9 +22,9 @@ int main(int argc, char** argv)
     long cant_keys;
     long success_key = -1;
     int encryption_method = -1;
-	int num_threads = NUM_THREADS;
-	char * omp_num_threads = getenv("OMP_NUM_THREADS");
-	int thread_id;
+    int num_threads = NUM_THREADS;
+    char * omp_num_threads = getenv("OMP_NUM_THREADS");
+    int thread_id;
     time_t start_time, end_time;
 
     // get the time stamp
@@ -56,13 +56,13 @@ int main(int argc, char** argv)
         exit(-1);
     }
 
-	for( int i = 0; i < num_threads; i++ ){
-		init_decryptor( &bf[i], DECRYPT, BLOWFISH, iv, encrypted_text );
-	}
+	//for( int i = 0; i < num_threads; i++ ){
+	//	init_decryptor( &bf[i], DECRYPT, BLOWFISH, iv, encrypted_text );
+	//}
 
-    for( int i = 0; i < num_threads; i++){
-		init_decryptor( &cast5[i], DECRYPT, CAST5, iv, encrypted_text );
-    }
+    	//for( int i = 0; i < num_threads; i++){
+	//	init_decryptor( &cast5[i], DECRYPT, CAST5, iv, encrypted_text );
+    	//}
 
 	// begin the decryption
 	key = ( unsigned char ** ) malloc( num_threads * sizeof( unsigned char * ) );
@@ -88,6 +88,7 @@ int main(int argc, char** argv)
 			keygen_itokey( key[ thread_id ], i );
 
 			// BLOWFISH
+			init_decryptor( &bf[thread_id], DECRYPT, BLOWFISH, iv, encrypted_text );
 			encryptor_set_key( &bf[ thread_id ], key[ thread_id ] );
 			encryptor_init( &bf[ thread_id ] );
 			encryptor_update( &bf[ thread_id ] );
@@ -108,8 +109,9 @@ int main(int argc, char** argv)
 			keygen_itokey( key[ thread_id ], i );
 
 			//CAST5
+			init_decryptor( &cast5[thread_id], DECRYPT, CAST5, iv, encrypted_text );
 			encryptor_set_key( &cast5[ thread_id ], key[ thread_id ] );
-            encryptor_init( &cast5[ thread_id ] );
+            		encryptor_init( &cast5[ thread_id ] );
 			encryptor_update( &cast5[ thread_id ] );
 			encryptor_final( &cast5[ thread_id ] );
 
