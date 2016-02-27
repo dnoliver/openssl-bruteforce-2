@@ -4,6 +4,7 @@
 #define KEYGEN_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 /** ascii code for space */
@@ -22,6 +23,8 @@
  * @return error
  */
 int keygen_itokey( unsigned char key[KEY_LENGTH], long number );
+
+void keygen_itokey_v2( unsigned char key[ KEY_LENGTH ], long number );
 
 /**
  * Read enviroment variables and get the number of keys
