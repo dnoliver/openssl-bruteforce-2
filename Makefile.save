@@ -121,7 +121,7 @@ gcov_2: clean $(TMP)/encryptedfile
 	CANT_KEYS=500000 ./$(BIN)/serial-1 $(TMP)/encryptedfile || echo done
 	lcov -o cov_2.info -c -d .
 	genhtml -o cov_2 cov_2.info
-	firefox cov_2/index.html
+	google-chrome cov_2/index.html
 
 gprof: clean
 	LDFLAGS="-std=c99 -Wall -O0 -pg -g" $(MAKE) all $(TMP)/encryptedfile
@@ -157,7 +157,8 @@ callgrind: clean
 	CANT_KEYS=50000 valgrind --tool=callgrind $(BIN)/serial $(TMP)/encryptedfile || echo done
 
 callgrind_2: clean $(TMP)/encryptedfile
-	$(CC) -std=c99 -Wall -O0 -g $(SRC)/serial-1.c -o $(BIN)/serial-1 -Bstatic -L/usr/lib/x86_64-linux-gnu/libcrypto.a -lcrypto -ldl  
+	$(CC) -std=c99 -Wall -O0 -g
+ /usr/lib/x86_64-linux-gnu/libcrypto.so $(SRC)/serial-1.c -o $(BIN)/serial-1 -ldl 
 	CANT_KEYS=50000 valgrind --tool=callgrind $(BIN)/serial-1 $(TMP)/encryptedfile || echo done
 
 clean:
